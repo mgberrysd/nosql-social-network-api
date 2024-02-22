@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongoose').Types;
 const { Thought, User } = require('../models');
 
 module.exports = {
@@ -30,8 +31,8 @@ module.exports = {
     try {
       const thought = await Thought.create(req.body);
       const user = await User.findOneAndUpdate(
-        { _id: req.params.userId },
-        { $addToSet: { thoughts: thoughtId } },
+        { _id: req.body.userId },
+        { $addToSet: { thoughts: thought._id } },
         { runValidators: true, new: true }
       );
       res.json(thought);
@@ -48,7 +49,7 @@ module.exports = {
       if (!thought) {
         res.status(404).json({ message: 'No thought with that ID' });
       }
-
+      res.json(thought);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -75,7 +76,7 @@ module.exports = {
     try {
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
-        { $addToSet: { reactions: reactionId } },
+        { $addToSet: { reactions: req.body } },
         { runValidators: true, new: true }
       );
       res.json(thought);
@@ -87,14 +88,15 @@ module.exports = {
   async deleteReaction(req, res) {
     try {
       const thought = await Thought.findOneAndUpdate(
-        { reactions: req.params.reactionId },
-        { $pull: { reactions: req.params.reactionId } },
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: {reactionId: req.params.reactionId } }},
         { new: true }
       );
 
       if (!thought) {
         res.status(404).json({ message: 'No reaction with that ID' });
       }
+      res.json(thought);
 
     } catch (err) {
       res.status(500).json(err);

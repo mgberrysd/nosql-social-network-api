@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 
+// Email validation found on stack overflow here: https://stackoverflow.com/questions/18022365/mongoose-validate-email-syntax
 // Schema to create Student model
 const userSchema = new Schema(
   {
@@ -13,15 +14,23 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
+      validate: {
+        validator: function(v) {
+            return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
+        },
+        message: "Please enter a valid email"
     },
-    thoughts: [{
+    },
+    thoughts: [
+      {
       type: Schema.Types.ObjectId,
-      ref: 'Thought',
+      ref: 'thought',
     },
     ],
-    friends: [{
+    friends: [
+      {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'user',
     },
     ],
   },
