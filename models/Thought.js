@@ -14,6 +14,7 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      get: formatTime
     },
     username: {
       type: String,
@@ -24,10 +25,15 @@ const thoughtSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
+      getters: true,
     },
     id: true,
   }
 );
+
+function formatTime(createdAt) {
+  return createdAt.toString('yyyy-MM-dd');
+}
 
 thoughtSchema
   .virtual('reactionCount')

@@ -18,6 +18,7 @@ const reactionSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      get: formatTime,
     },
   },
   {
@@ -27,5 +28,9 @@ const reactionSchema = new Schema(
     id: false,
   }
 );
+
+function formatTime(createdAt) {
+  return createdAt.toString('yyyy-MM-dd');
+}
 
 module.exports = reactionSchema;
