@@ -1,8 +1,9 @@
 const { Schema, model } = require('mongoose');
+// Requires the reaction schema to populate the reactions subdoc
 const reactionSchema = require('./Reaction');
 
-
-// Schema to create a course model
+// Thought schema that defines the database structure
+// Uses the reaction schema to populate the reactions subdoc
 const thoughtSchema = new Schema(
   {
     thoughtText: {
@@ -27,14 +28,16 @@ const thoughtSchema = new Schema(
       virtuals: true,
       getters: true,
     },
-    id: true,
   }
 );
 
+// Getter function to format the time/date on database access
 function formatTime(createdAt) {
   return createdAt.toString('yyyy-MM-dd');
 }
 
+// Virtual for reaction count
+// Not stored in DB but returns when the model is queried
 thoughtSchema
   .virtual('reactionCount')
   // Getter
@@ -42,6 +45,7 @@ thoughtSchema
     return this.reactions.length;
   });
 
+// Exports the thought model/schema for use in other parts of the code
 const Thought = model('thought', thoughtSchema);
 
 module.exports = Thought;

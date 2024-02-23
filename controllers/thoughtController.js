@@ -1,5 +1,6 @@
-const { ObjectId } = require('mongoose').Types;
 const { Thought, User } = require('../models');
+
+// Controller for thoughts, contains the logic for DB requests but not the routes
 
 module.exports = {
   // Get all thoughts
@@ -11,7 +12,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Get a thought
+  // Get a thought by id
   async getSingleThought(req, res) {
     try {
       const thought = await Thought.findOne({ _id: req.params.thoughtId })
@@ -27,6 +28,8 @@ module.exports = {
     }
   },
   // Create a thought
+  // Also adds the associated thought to user thoughts subdoc
+  // Runs validators on add
   async createThought(req, res) {
     try {
       const thought = await Thought.create(req.body);
@@ -41,7 +44,7 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
-  // Delete a thought
+  // Delete a thought by id
   async deleteThought(req, res) {
     try {
       const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
@@ -54,7 +57,8 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Update a thought
+  // Update a thought by id
+  // Runs validators
   async updateThought(req, res) {
     try {
       const thought = await Thought.findOneAndUpdate(
@@ -72,6 +76,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+  // Create a reaction to a single thought by id
   async createReaction(req, res) {
     try {
       const thought = await Thought.findOneAndUpdate(
@@ -85,6 +90,8 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
+  // Delete a single reaction from a single thought
+  // Requires both the reaction id and thought id
   async deleteReaction(req, res) {
     try {
       const thought = await Thought.findOneAndUpdate(

@@ -1,3 +1,6 @@
+// Routes now only contain the associated methods and URLS, logic is in the controller files
+
+// Functions for the db queries are required from the controller
 const router = require('express').Router();
 const {
   getUsers,
@@ -9,16 +12,20 @@ const {
   removeFriend,
 } = require('../../controllers/userController');
 
-// /api/user
+// Get and post routes for all users
+// /api/users
 router.route('/').get(getUsers).post(createUser);
 
-// /api/user/:userId
+// Get, put, and delete routes for a single user
+// /api/users/:userId
 router.route('/:userId').get(getSingleUser).put(updateUser).delete(deleteUser);
 
-// /api/user/:studentId/friends
+// Post route to add a new friend on an individual user
+// /api/users/:userId/friends
 router.route('/:userId/friends').post(addFriend);
 
-// /api/user/:studentId/friends/:friendId
+// Delete route to delete a single friend from a single user
+// /api/users/:userId/friends/:friendId
 router.route('/:userId/friends/:friendId').delete(removeFriend);
 
 module.exports = router;

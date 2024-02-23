@@ -1,7 +1,10 @@
 const { Schema, model } = require('mongoose');
 
+// Schema for the user model
+// Features a custom email validation using a regex
 // Email validation found on stack overflow here: https://stackoverflow.com/questions/18022365/mongoose-validate-email-syntax
-// Schema to create Student model
+// Has a subdoc for associated thoughts that references the thought model
+// Has a subdoc for friends that self references this model
 const userSchema = new Schema(
   {
     username: {
@@ -36,11 +39,14 @@ const userSchema = new Schema(
   },
   {
     toJSON: {
+      virtuals: true,
       getters: true,
     },
   }
 );
 
+// Virtual for friend count
+// Not stored in DB, returns on DB access
 userSchema
   .virtual('friendCount')
   // Getter

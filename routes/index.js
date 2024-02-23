@@ -1,3 +1,6 @@
+// Index for routes, very standard
+// No user routes in this application, only backend  api
+
 const router = require('express').Router();
 const apiRoutes = require('./api');
 

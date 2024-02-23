@@ -1,5 +1,7 @@
 const { Schema, Types } = require('mongoose');
 
+// Schema only for reaction, no model
+// used to populate a subdoc in thought
 const reactionSchema = new Schema(
   {
     reactionId: {
@@ -29,8 +31,10 @@ const reactionSchema = new Schema(
   }
 );
 
+// Getter function to format time/date on DB access
 function formatTime(createdAt) {
   return createdAt.toString('yyyy-MM-dd');
 }
 
+// Exports the reaction schema to be used in other files
 module.exports = reactionSchema;
