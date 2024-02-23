@@ -20,4 +20,4 @@ A video of the application being run can be found at https://drive.google.com/fi
 
 The JS backend for the Scoial Network API backend was created by Michael Berry.
 
-The project used the  the node mongoose package as an ODM for MongoDB, and Insomnia for route testing.
+The project used the node mongoose package as an ODM for MongoDB, and Insomnia for route testing.
